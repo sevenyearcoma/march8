@@ -9,15 +9,15 @@ import styles from "../page.module.css";
 const modelsData = [
     {
         url: "/models/heart.glb",
-        position: [0, -1.5, 0],
-        scale: 0.8,
+        position: [0, -0.5, 0],
+        scale: 1.2,
         rotation: [0.1, 0.2, -0.1],
         heading: "с 8 марта",
         text: "наши дорогие девочки от всей души поздравляем вас!",
     },
     {
         url: "/models/sakura-flower.glb",
-        position: [1.5, -6, -4],
+        position: [1.5, -5, -4],
         scale: 5,
         rotation: [0.2, 0.5, 0.15],
         heading: "приглашение",
@@ -25,7 +25,7 @@ const modelsData = [
     },
     {
         url: "/models/giftbox.glb",
-        position: [-1.2, -12.5, -1],
+        position: [-1.5, -11.5, -3],
         scale: 1,
         rotation: [0.15, -0.6, 0.25],
         heading: "подарки",
@@ -43,7 +43,7 @@ const modelsData = [
     },
     {
         url: "/models/shiba_inu.glb",
-        position: [-1.2, -21.5, 0],
+        position: [-1, -21.5, 0],
         scale: 10,
         rotation: [0.05, 0.6, -0.05],
         heading: "отличная компания",
@@ -51,15 +51,15 @@ const modelsData = [
     },
     {
         url: "/models/cute_milkshake.glb",
-        position: [1.5, -26, -1],
-        scale: 0.8,
+        position: [1, -26.5, -1],
+        scale: 0.7,
         rotation: [0.15, -0.3, 0.1],
         heading: "вкусности",
         text: "мы закажем много разных вкусностей, чтобы порадовать вас и нас",
     },
     {
         url: "/models/sushi_set.glb",
-        position: [-1.5, -31, -1],
+        position: [-1, -31, -1],
         scale: 0.2,
         rotation: [0.3, 0.7, 0.25],
         heading: "суши сет",
@@ -67,7 +67,7 @@ const modelsData = [
     },
     {
         url: "/models/board_game_boxes.glb",
-        position: [1.2, -34.3, 0],
+        position: [1, -36, 0],
         scale: 0.8,
         rotation: [0.1, -0.6, 0.1],
         heading: "настолки",
@@ -75,23 +75,15 @@ const modelsData = [
     },
     {
         url: "/models/playing_cards.glb",
-        position: [-2, -39, 0],
+        position: [-2, -41, 0],
         scale: 0.8,
         rotation: [0.4, 0.6, -0.25],
         heading: "круто проведем время",
         text: "будет очень душевно, можем в карты поиграть (пж адина)",
     },
     {
-        url: "/models/sushi-roll.glb",
-        position: [0, -28.2, 0],
-        scale: 1.5,
-        rotation: [0.6, 0.4, -0.15],
-        heading: "очень ждем вас!",
-        text: "до встречи на празднике! ждем с нетерпением!",
-    },
-    {
         url: "/models/cute_mocha_cat_3.glb",
-        position: [0, -44, 0],
+        position: [1, -45, 0],
         scale: 0.7,
         rotation: [0.05, -0.8, 0.1],
         heading: "очень ждем",
@@ -183,7 +175,7 @@ export function Experience() {
             <Sparkles count={50} scale={12} size={5} speed={0.2} opacity={0.2} color="#b25d5d" />
 
             <Suspense fallback={null}>
-                <ScrollControls pages={11} damping={0.25}>
+                <ScrollControls pages={10} damping={0.25}>
                     <Scroll>
                         {modelsData.map((data, index) => (
                             <Model

@@ -34,7 +34,16 @@ export function Model({
     // Calculate dynamic Y position based on viewport
     // preserve any custom offset the user had relative to the -5 grid
     const customOffsetY = position[1] - (-5 * index);
-    const actualY = -index * viewport.height + customOffsetY;
+
+    const isMobile = viewport.aspect < 1;
+    // Shift model up to top 20% of screen on mobile (offset 0.3 * height)
+    const mobileYOffset = viewport.height * 0.3;
+    const actualY = isMobile
+        ? -index * viewport.height + customOffsetY + mobileYOffset
+        : -index * viewport.height + customOffsetY;
+
+    // Make models significantly smaller on mobile to avoid overlap
+    const responsiveScale = isMobile ? scale * 1 : scale;
 
     useFrame((state) => {
         if (!group.current) return;
@@ -52,7 +61,7 @@ export function Model({
     });
 
     return (
-        <group ref={group} position={position} rotation={rotation} scale={scale}>
+        <group ref={group} position={position} rotation={rotation} scale={responsiveScale}>
             <primitive object={scene} />
         </group>
     );
