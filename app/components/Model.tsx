@@ -13,6 +13,7 @@ interface ModelProps {
     floatSpeed?: number;
     floatAmplitude?: number;
     index: number;
+    mobileZ?: number; // Optional Z-position override for mobile screens
 }
 
 export function Model({
@@ -25,6 +26,7 @@ export function Model({
     floatSpeed = 1.5,
     floatAmplitude = 0.2,
     index,
+    mobileZ,
 }: ModelProps) {
     const { scene } = useGLTF(url);
     const group = useRef<THREE.Group>(null);
@@ -42,6 +44,9 @@ export function Model({
         ? -index * viewport.height + customOffsetY + mobileYOffset
         : -index * viewport.height + customOffsetY;
 
+    // Determine actual Z position, overriding with mobileZ if provided and on a mobile screen
+    const actualZ = (isMobile && mobileZ !== undefined) ? mobileZ : position[2];
+
     // Make models significantly smaller on mobile to avoid overlap
     const responsiveScale = isMobile ? scale * 1 : scale;
 
@@ -52,7 +57,7 @@ export function Model({
         const t = state.clock.getElapsedTime();
         group.current.position.y = actualY + Math.sin(t * floatSpeed) * floatAmplitude;
         group.current.position.x = position[0];
-        group.current.position.z = position[2];
+        group.current.position.z = actualZ;
 
         // Scroll-based rotation
         const r1 = scroll.range(scrollPageStart, scrollPageEnd - scrollPageStart);

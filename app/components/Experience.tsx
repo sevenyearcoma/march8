@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { ScrollControls, Scroll, Float, Preload, Sparkles, useGLTF } from "@react-three/drei";
 import { Model } from "./Model";
@@ -17,7 +17,7 @@ const modelsData = [
     },
     {
         url: "/models/sakura-flower.glb",
-        position: [1.5, -5, -4],
+        position: [1.5, -4.5, -4],
         scale: 5,
         rotation: [0.2, 0.5, 0.15],
         heading: "приглашение",
@@ -25,7 +25,7 @@ const modelsData = [
     },
     {
         url: "/models/giftbox.glb",
-        position: [-1.5, -11.5, -3],
+        position: [-1.5, -10.5, -3],
         scale: 1,
         rotation: [0.15, -0.6, 0.25],
         heading: "подарки",
@@ -33,7 +33,7 @@ const modelsData = [
     },
     {
         url: "/models/pastel_house.glb",
-        position: [1, -16, 0],
+        position: [1, -14.5, 0],
         scale: 0.4,
         rotation: [0.05, -0.8, 0.1],
         heading: "где и когда?",
@@ -43,7 +43,7 @@ const modelsData = [
     },
     {
         url: "/models/shiba_inu.glb",
-        position: [-1, -21.5, 0],
+        position: [-1, -20, 0],
         scale: 10,
         rotation: [0.05, 0.6, -0.05],
         heading: "отличная компания",
@@ -51,7 +51,7 @@ const modelsData = [
     },
     {
         url: "/models/cute_milkshake.glb",
-        position: [1, -26.5, -1],
+        position: [1, -24.7, -1],
         scale: 0.7,
         rotation: [0.15, -0.3, 0.1],
         heading: "вкусности",
@@ -59,7 +59,7 @@ const modelsData = [
     },
     {
         url: "/models/sushi_set.glb",
-        position: [-1, -31, -1],
+        position: [-1, -28.5, -1],
         scale: 0.2,
         rotation: [0.3, 0.7, 0.25],
         heading: "суши сет",
@@ -67,7 +67,7 @@ const modelsData = [
     },
     {
         url: "/models/board_game_boxes.glb",
-        position: [1, -36, 0],
+        position: [1, -33, 0],
         scale: 0.8,
         rotation: [0.1, -0.6, 0.1],
         heading: "настолки",
@@ -75,7 +75,7 @@ const modelsData = [
     },
     {
         url: "/models/playing_cards.glb",
-        position: [-2, -41, 0],
+        position: [-2, -37.5, 0],
         scale: 0.8,
         rotation: [0.4, 0.6, -0.25],
         heading: "круто проведем время",
@@ -83,18 +83,31 @@ const modelsData = [
     },
     {
         url: "/models/cute_mocha_cat_3.glb",
-        position: [1, -45, 0],
+        position: [1, -41.7, 0],
         scale: 0.7,
         rotation: [0.05, -0.8, 0.1],
         heading: "очень ждем",
         text: "все кто может и хочет приходите, мы будем рады вас видеть",
+    },
+    {
+        urls: [
+            { url: "/models/girls3dmodels/adina.glb", position: [-2.1, -48, -0.4], scale: 1.2, rotation: [0.1, -1.2, 0], mobileZ: -8.4 },
+            { url: "/models/girls3dmodels/aknur.glb", position: [-1.4, -48, -0.1], scale: 1.2, rotation: [0.1, -1.4, 0], mobileZ: -8.1 },
+            { url: "/models/girls3dmodels/gulya.glb", position: [-0.7, -48, 0.1], scale: 1.2, rotation: [0.1, -1.5, 0], mobileZ: -7.9 },
+            { url: "/models/girls3dmodels/arai.glb", position: [0, -48, 0.2], scale: 1.2, rotation: [0.1, -1.6, 0], mobileZ: -7.8 },
+            { url: "/models/girls3dmodels/inkar.glb", position: [0.7, -48, 0.1], scale: 1.2, rotation: [0.1, -1.7, 0], mobileZ: -7.9 },
+            { url: "/models/girls3dmodels/laura.glb", position: [1.4, -48, -0.1], scale: 1.2, rotation: [0.1, -1.8, 0], mobileZ: -8.1 },
+            { url: "/models/girls3dmodels/sabina.glb", position: [2.1, -48, -0.4], scale: 1.2, rotation: [0.1, -1.9, 0], mobileZ: -8.4 },
+        ],
+        heading: "с 8 марта!",
+        text: "крепко обнимаем! ❤️",
     }
-] as const;
+] as any[];
 
 const BackgroundBubbles = () => {
     return (
         <>
-            {Array.from({ length: 40 }).map((_, i) => (
+            {Array.from({ length: 80 }).map((_, i) => (
                 <Float
                     key={i}
                     speed={1 + Math.random()}
@@ -102,7 +115,7 @@ const BackgroundBubbles = () => {
                     floatIntensity={2}
                     position={[
                         (Math.random() - 0.5) * 30, // Spread wider in X
-                        Math.random() * -50 + 10,   // Spread along Y scroll from Top to Bottom
+                        Math.random() * -100 + 10,   // Spread along Y scroll from Top to Bottom
                         (Math.random() - 0.5) * 15 - 5 // Spread in Z (depth)
                     ]}
                 >
@@ -124,7 +137,7 @@ const BackgroundBubbles = () => {
 const FallingPetals = () => {
     return (
         <>
-            {Array.from({ length: 60 }).map((_, i) => (
+            {Array.from({ length: 120 }).map((_, i) => (
                 <Float
                     key={`petal-${i}`}
                     speed={2 + Math.random() * 2} // Faster falling speed
@@ -132,7 +145,7 @@ const FallingPetals = () => {
                     floatIntensity={2}
                     position={[
                         (Math.random() - 0.5) * 30, // Spread wider in X
-                        Math.random() * -60 + 15,   // Spread along Y scroll
+                        Math.random() * -100 + 15,   // Spread along Y scroll
                         (Math.random() - 0.5) * 15 - 5 // Spread in Z (depth)
                     ]}
                 >
@@ -175,20 +188,37 @@ export function Experience() {
             <Sparkles count={50} scale={12} size={5} speed={0.2} opacity={0.2} color="#b25d5d" />
 
             <Suspense fallback={null}>
-                <ScrollControls pages={10} damping={0.25}>
+                <ScrollControls pages={11} damping={0.25}>
                     <Scroll>
-                        {modelsData.map((data, index) => (
-                            <Model
-                                key={index}
-                                index={index}
-                                url={data.url}
-                                position={data.position as [number, number, number]}
-                                scale={data.scale}
-                                rotation={data.rotation as [number, number, number]}
-                                scrollPageStart={index === 0 ? 0 : index - 0.5}
-                                scrollPageEnd={index + 1}
-                            />
-                        ))}
+                        {modelsData.map((data, index) => {
+                            if ('urls' in data) {
+                                return data.urls.map((u: any, i: number) => (
+                                    <Model
+                                        key={`group-${index}-${i}`}
+                                        index={index}
+                                        url={u.url}
+                                        position={u.position as [number, number, number]}
+                                        scale={u.scale}
+                                        rotation={u.rotation as [number, number, number]}
+                                        mobileZ={u.mobileZ}
+                                        scrollPageStart={index - 0.5}
+                                        scrollPageEnd={index + 1}
+                                    />
+                                ));
+                            }
+                            return (
+                                <Model
+                                    key={index}
+                                    index={index}
+                                    url={data.url}
+                                    position={data.position as [number, number, number]}
+                                    scale={data.scale}
+                                    rotation={data.rotation as [number, number, number]}
+                                    scrollPageStart={index === 0 ? 0 : index - 0.5}
+                                    scrollPageEnd={index + 1}
+                                />
+                            );
+                        })}
                     </Scroll>
 
                     <Scroll html style={{ width: "100%", height: "100%" }}>
@@ -241,6 +271,10 @@ export function Experience() {
 }
 
 modelsData.forEach((data) => {
-    useGLTF.preload(data.url);
+    if ('urls' in data) {
+        data.urls.forEach((u: any) => useGLTF.preload(u.url));
+    } else {
+        useGLTF.preload(data.url);
+    }
 });
 
