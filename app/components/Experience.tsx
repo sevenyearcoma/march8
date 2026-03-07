@@ -2,7 +2,7 @@
 
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
-import { ScrollControls, Scroll, Float, Preload, Sparkles } from "@react-three/drei";
+import { ScrollControls, Scroll, Float, Preload, Sparkles, useGLTF } from "@react-three/drei";
 import { Model } from "./Model";
 import styles from "../page.module.css";
 
@@ -232,3 +232,8 @@ export function Experience() {
         </Canvas>
     );
 }
+
+modelsData.forEach((data) => {
+    useGLTF.preload(data.url);
+});
+
