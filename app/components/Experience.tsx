@@ -17,7 +17,7 @@ const modelsData = [
     },
     {
         url: "/models/sakura-flower.glb",
-        position: [1.5, -5, -4],
+        position: [1.5, -6, -4],
         scale: 5,
         rotation: [0.2, 0.5, 0.15],
         heading: "приглашение",
@@ -25,23 +25,25 @@ const modelsData = [
     },
     {
         url: "/models/giftbox.glb",
-        position: [-1.2, -11, -1],
+        position: [-1.2, -12.5, -1],
         scale: 1,
         rotation: [0.15, -0.6, 0.25],
         heading: "подарки",
-        text: "мы подготовили для вас подарочки исходя из ваших поделаний, поэтому вам точно понравится",
+        text: "мы подготовили для вас подарочки исходя из ваших пожеланий, поэтому вам точно понравится",
     },
     {
-        url: "/models/cute_mocha_cat_3.glb",
-        position: [1.2, -15, 0],
-        scale: 0.7,
+        url: "/models/pastel_house.glb",
+        position: [1, -16, 0],
+        scale: 0.4,
         rotation: [0.05, -0.8, 0.1],
         heading: "где и когда?",
         text: "праздник пройдет в 18:00 у Андрея дома по адресу Толе би 273А/5A, кв. 198, обязательно приходите (лучше вовремя)",
+        link: "https://go.2gis.com/ygTzV",
+        linkText: "Посмотреть в 2GIS"
     },
     {
         url: "/models/shiba_inu.glb",
-        position: [-1.2, -21, 0],
+        position: [-1.2, -21.5, 0],
         scale: 10,
         rotation: [0.05, 0.6, -0.05],
         heading: "отличная компания",
@@ -57,7 +59,7 @@ const modelsData = [
     },
     {
         url: "/models/sushi_set.glb",
-        position: [-1.5, -30, -1],
+        position: [-1.5, -31, -1],
         scale: 0.2,
         rotation: [0.3, 0.7, 0.25],
         heading: "суши сет",
@@ -65,19 +67,19 @@ const modelsData = [
     },
     {
         url: "/models/board_game_boxes.glb",
-        position: [1.2, -35, 0],
+        position: [1.2, -34.3, 0],
         scale: 0.8,
         rotation: [0.1, -0.6, 0.1],
         heading: "настолки",
-        text: "а еще мы будем играть в интересные и веселые настолки (если принесете)",
+        text: "а еще мы будем играть в интересные и веселые настолки (если принесете) (пж адина)",
     },
     {
         url: "/models/playing_cards.glb",
-        position: [-2, -40, 0],
+        position: [-2, -39, 0],
         scale: 0.8,
         rotation: [0.4, 0.6, -0.25],
         heading: "круто проведем время",
-        text: "будет очень весело, расслабленно и душевно",
+        text: "будет очень душевно, можем в карты поиграть (пж адина)",
     },
     {
         url: "/models/sushi-roll.glb",
@@ -86,6 +88,14 @@ const modelsData = [
         rotation: [0.6, 0.4, -0.15],
         heading: "очень ждем вас!",
         text: "до встречи на празднике! ждем с нетерпением!",
+    },
+    {
+        url: "/models/cute_mocha_cat_3.glb",
+        position: [0, -44, 0],
+        scale: 0.7,
+        rotation: [0.05, -0.8, 0.1],
+        heading: "очень ждем",
+        text: "все кто может и хочет приходите, мы будем рады вас видеть",
     }
 ] as const;
 
@@ -173,7 +183,7 @@ export function Experience() {
             <Sparkles count={50} scale={12} size={5} speed={0.2} opacity={0.2} color="#b25d5d" />
 
             <Suspense fallback={null}>
-                <ScrollControls pages={10} damping={0.25}>
+                <ScrollControls pages={11} damping={0.25}>
                     <Scroll>
                         {modelsData.map((data, index) => (
                             <Model
@@ -218,6 +228,11 @@ export function Experience() {
                                                 <>
                                                     <h2 className={styles.cardHeading}>{data.heading}</h2>
                                                     <p className={styles.cardText}>{data.text}</p>
+                                                    {'link' in data && data.link && (
+                                                        <a href={data.link} target="_blank" rel="noopener noreferrer" className={styles.linkButton}>
+                                                            {data.linkText}
+                                                        </a>
+                                                    )}
                                                 </>
                                             )}
                                         </div>

@@ -83,6 +83,24 @@
     font-weight: 400;
 }
 
+.linkButton {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.8rem 1.8rem;
+    background: var(--text-highlight, #b25d5d);
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 500;
+    transition: transform 0.2s ease, background 0.2s ease;
+    box-shadow: 0 4px 15px rgba(178, 93, 93, 0.4);
+}
+
+.linkButton:hover {
+    transform: translateY(-2px);
+    background: #a04a4a;
+}
+
 .cardMain {
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(15px);
