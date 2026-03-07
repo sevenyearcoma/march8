@@ -17,8 +17,8 @@ const modelsData = [
     },
     {
         url: "/models/sakura-flower.glb",
-        position: [1.5, -5, -2],
-        scale: 2.5,
+        position: [1.5, -5, -4],
+        scale: 5,
         rotation: [0.2, 0.5, 0.15],
         heading: "приглашение",
         text: "мы хотим пригласить вас на наш праздник восьмого марта (восьмиклассное марта)",
@@ -26,7 +26,7 @@ const modelsData = [
     {
         url: "/models/giftbox.glb",
         position: [-1.2, -11, -1],
-        scale: 0.7,
+        scale: 1,
         rotation: [0.15, -0.6, 0.25],
         heading: "подарки",
         text: "мы подготовили для вас подарочки исходя из ваших поделаний, поэтому вам точно понравится",
@@ -42,7 +42,7 @@ const modelsData = [
     {
         url: "/models/shiba_inu.glb",
         position: [-1.2, -21, 0],
-        scale: 8,
+        scale: 10,
         rotation: [0.05, 0.6, -0.05],
         heading: "отличная компания",
         text: "соберемся восьмяшами и будем общаться и смеяться (опционально)",
@@ -50,7 +50,7 @@ const modelsData = [
     {
         url: "/models/cute_milkshake.glb",
         position: [1.5, -26, -1],
-        scale: 0.6,
+        scale: 0.8,
         rotation: [0.15, -0.3, 0.1],
         heading: "вкусности",
         text: "мы закажем много разных вкусностей, чтобы порадовать вас и нас",
@@ -66,7 +66,7 @@ const modelsData = [
     {
         url: "/models/board_game_boxes.glb",
         position: [1.2, -35, 0],
-        scale: 0.6,
+        scale: 0.8,
         rotation: [0.1, -0.6, 0.1],
         heading: "настолки",
         text: "а еще мы будем играть в интересные и веселые настолки (если принесете)",
@@ -74,15 +74,15 @@ const modelsData = [
     {
         url: "/models/playing_cards.glb",
         position: [-2, -40, 0],
-        scale: 0.6,
+        scale: 0.8,
         rotation: [0.4, 0.6, -0.25],
         heading: "круто проведем время",
         text: "будет очень весело, расслабленно и душевно",
     },
     {
         url: "/models/sushi-roll.glb",
-        position: [0, -28, 0],
-        scale: 1.2,
+        position: [0, -28.2, 0],
+        scale: 1.5,
         rotation: [0.6, 0.4, -0.15],
         heading: "очень ждем вас!",
         text: "до встречи на празднике! ждем с нетерпением!",
