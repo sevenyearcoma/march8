@@ -1,0 +1,117 @@
+.htmlContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 1000vh;
+    /* 10 pages */
+    display: flex;
+    flex-direction: column;
+}
+
+.section {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+}
+
+.sectionLeft {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 2rem;
+    padding-left: 10vw;
+    justify-content: flex-start;
+}
+
+.sectionRight {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 2rem;
+    padding-right: 10vw;
+    justify-content: flex-end;
+}
+
+.sectionCenter {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.heading {
+    font-size: clamp(3rem, 10vw, 6rem);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--text-highlight);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.subtext {
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    font-weight: 300;
+    color: var(--foreground);
+    opacity: 0.9;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 2.5rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    max-width: 450px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+}
+
+.cardHeading {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 1rem;
+    color: var(--text-highlight);
+    line-height: 1.2;
+}
+
+.cardText {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+.cardMain {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 4rem;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    text-align: center;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Specific to mobile */
+@media (max-width: 768px) {
+
+    .sectionLeft,
+    .sectionRight {
+        padding-left: 5vw;
+        padding-right: 5vw;
+        justify-content: center;
+    }
+
+    .card {
+        padding: 1.5rem;
+        transform: translateY(20vh);
+        /* Push down on mobile to not overlap 3D model too much */
+    }
+
+    .sectionLeft .card,
+    .sectionRight .card {
+        background: rgba(255, 255, 255, 0.2);
+    }
+}
