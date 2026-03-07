@@ -17,7 +17,7 @@ const modelsData = [
     },
     {
         url: "/models/sakura-flower.glb",
-        position: [1.5, -4.5, -4],
+        position: [1.5, -4, -4],
         scale: 5,
         rotation: [0.2, 0.5, 0.15],
         heading: "приглашение",
@@ -82,26 +82,69 @@ const modelsData = [
         text: "будет очень душевно, можем в карты поиграть (пж адина)",
     },
     {
+        url: "/models/girls3dmodels/adina.glb",
+        position: [0, -41.8, 0],
+        scale: 2.5,
+        rotation: [0.1, -1.5, 0],
+        heading: "адине",
+        text: "желаем, чтобы все твои мечты сбывались. а цели достигались! (ты понимаешь о чём мы :p) 💖",
+    },
+    {
+        url: "/models/girls3dmodels/aknur.glb",
+        position: [0, -46.5, 0],
+        scale: 2.5,
+        rotation: [0.1, -1.7, 0],
+        heading: "акнур",
+        text: "пусть твоя жизнь и дальше будет наполнена счастливыми моментами. цвети и сияй! 🌸",
+    },
+    {
+        url: "/models/girls3dmodels/gulya.glb",
+        position: [-0, -51, 0],
+        scale: 2.5,
+        rotation: [0.1, -1.5, 0],
+        heading: "гуле",
+        text: "оставайся такой же трудолюбивой и ответственной! пусть все твои цели достигаются! ✨",
+    },
+    {
+        url: "/models/girls3dmodels/arai.glb",
+        position: [0, -55.5, 0],
+        scale: 2.3,
+        rotation: [0.1, -1.5, 0],
+        heading: "арай",
+        text: "желаем тебе бесконечного вдохновения, добра и тепла, которое ты нам всегда даришь 🌷",
+    },
+    {
+        url: "/models/girls3dmodels/inkar.glb",
+        position: [0, -60.5, 0],
+        scale: 2.5,
+        rotation: [0.1, -1.6, 0],
+        heading: "инкар",
+        text: "пусть рядом всегда будут верные друзья. ты чудо и спанчбоб ирл! 💖",
+    },
+    {
+        url: "/models/girls3dmodels/laura.glb",
+        position: [0, -65, 0],
+        scale: 2.5,
+        rotation: [0.1, -1.7, 0],
+        heading: "лауре",
+        text: "желаем море любви, добра и красоты! и чтобы все твои усилия всегда увенчались блестящим результатом 🌺",
+    },
+    {
+        url: "/models/girls3dmodels/sabina.glb",
+        position: [0, -69.7, 0],
+        scale: 2.5,
+        rotation: [0.1, -1.6, 0],
+        heading: "сабине",
+        text: "оставайся всегда на высоте, пусть удача сопутствует во всем, а улыбка и дальше никогда не сходит с лица!💐",
+    },
+    {
         url: "/models/cute_mocha_cat_3.glb",
-        position: [1, -41.7, 0],
+        position: [1, -74.5, 0],
         scale: 0.7,
         rotation: [0.05, -0.8, 0.1],
         heading: "очень ждем",
         text: "все кто может и хочет приходите, мы будем рады вас видеть",
     },
-    {
-        urls: [
-            { url: "/models/girls3dmodels/adina.glb", position: [-2.1, -50, -0.4], scale: 1.2, rotation: [0.1, -1.2, 0], mobileZ: -8.4 },
-            { url: "/models/girls3dmodels/aknur.glb", position: [-1.4, -50, -0.1], scale: 1.2, rotation: [0.1, -1.4, 0], mobileZ: -8.1 },
-            { url: "/models/girls3dmodels/gulya.glb", position: [-0.7, -50, 0.1], scale: 1.2, rotation: [0.1, -1.5, 0], mobileZ: -7.9 },
-            { url: "/models/girls3dmodels/arai.glb", position: [0, -50, 0.2], scale: 1.2, rotation: [0.1, -1.6, 0], mobileZ: -7.8 },
-            { url: "/models/girls3dmodels/inkar.glb", position: [0.7, -50, 0.1], scale: 1.2, rotation: [0.1, -1.7, 0], mobileZ: -7.9 },
-            { url: "/models/girls3dmodels/laura.glb", position: [1.4, -50, -0.1], scale: 1.2, rotation: [0.1, -1.8, 0], mobileZ: -8.1 },
-            { url: "/models/girls3dmodels/sabina.glb", position: [2.1, -50, -0.4], scale: 1.2, rotation: [0.1, -1.9, 0], mobileZ: -8.4 },
-        ],
-        heading: "с 8 марта!",
-        text: "крепко обнимаем! ❤️",
-    }
 ] as any[];
 
 const BackgroundBubbles = () => {
@@ -188,7 +231,7 @@ export function Experience() {
             <Sparkles count={50} scale={12} size={5} speed={0.2} opacity={0.2} color="#b25d5d" />
 
             <Suspense fallback={null}>
-                <ScrollControls pages={11} damping={0.25}>
+                <ScrollControls pages={16} damping={0.25}>
                     <Scroll>
                         {modelsData.map((data, index) => {
                             if ('urls' in data) {
