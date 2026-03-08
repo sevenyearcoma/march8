@@ -62,7 +62,7 @@ export function Model({
         <group ref={group} rotation={rotation} scale={responsiveScale}>
             <primitive 
                 object={scene} 
-                position={[0, isMobile ? 1.2 : 0, 0]} // Shift visual up on mobile to leave room for centered text
+                position={[0, isMobile ? -1.2 : 0, 0]} // Shift model DOWN on mobile
             />
         </group>
     );

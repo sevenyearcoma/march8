@@ -275,7 +275,7 @@ export function Experience() {
                                     position={data.position as [number, number, number]}
                                     scale={data.scale}
                                     rotation={data.rotation as [number, number, number]}
-                                    scrollPageStart={index === 0 ? 0 : index - 0.5}
+                                    scrollPageStart={index}
                                     scrollPageEnd={index + 1}
                                 />
                             );
