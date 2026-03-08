@@ -1,8 +1,8 @@
 "use client";
 
-import React, { Suspense } from "react";
+import React, { Suspense, useState, useCallback } from "react";
 import { Canvas } from "@react-three/fiber";
-import { ScrollControls, Scroll, Float, Preload, Sparkles, useGLTF } from "@react-three/drei";
+import { ScrollControls, Scroll, Float, Sparkles, useGLTF } from "@react-three/drei";
 import { Model } from "./Model";
 import styles from "../page.module.css";
 
@@ -147,25 +147,34 @@ const modelsData = [
     },
 ] as any[];
 
-const BackgroundBubbles = () => {
+const BackgroundBubbles = React.memo(() => {
+    const bubbles = React.useMemo(() => 
+        Array.from({ length: 80 }).map(() => ({
+            speed: 1 + Math.random(),
+            position: [
+                (Math.random() - 0.5) * 30,
+                Math.random() * -100 + 10,
+                (Math.random() - 0.5) * 15 - 5
+            ] as [number, number, number],
+            color: Math.random() > 0.5 ? '#f4dada' : '#d49a9a',
+            size: Math.random() * 0.4 + 0.1
+        })), []
+    );
+
     return (
         <>
-            {Array.from({ length: 80 }).map((_, i) => (
+            {bubbles.map((b, i) => (
                 <Float
                     key={i}
-                    speed={1 + Math.random()}
+                    speed={b.speed}
                     rotationIntensity={1}
                     floatIntensity={2}
-                    position={[
-                        (Math.random() - 0.5) * 30, // Spread wider in X
-                        Math.random() * -100 + 10,   // Spread along Y scroll from Top to Bottom
-                        (Math.random() - 0.5) * 15 - 5 // Spread in Z (depth)
-                    ]}
+                    position={b.position}
                 >
                     <mesh>
-                        <sphereGeometry args={[Math.random() * 0.4 + 0.1, 16, 16]} />
+                        <sphereGeometry args={[b.size, 16, 16]} />
                         <meshStandardMaterial
-                            color={Math.random() > 0.5 ? '#f4dada' : '#d49a9a'}
+                            color={b.color}
                             transparent
                             opacity={0.6}
                             roughness={0.2}
@@ -175,28 +184,37 @@ const BackgroundBubbles = () => {
             ))}
         </>
     );
-};
+});
 
-const FallingPetals = () => {
+const FallingPetals = React.memo(() => {
+    const petals = React.useMemo(() => 
+        Array.from({ length: 120 }).map(() => ({
+            speed: 2 + Math.random() * 2,
+            position: [
+                (Math.random() - 0.5) * 30,
+                Math.random() * -100 + 15,
+                (Math.random() - 0.5) * 15 - 5
+            ] as [number, number, number],
+            color: Math.random() > 0.5 ? '#ffb6c1' : '#ffc0cb',
+            size: Math.random() * 0.15 + 0.1,
+            rotation: [Math.random() * Math.PI, Math.random() * Math.PI, 0] as [number, number, number]
+        })), []
+    );
+
     return (
         <>
-            {Array.from({ length: 120 }).map((_, i) => (
+            {petals.map((p, i) => (
                 <Float
                     key={`petal-${i}`}
-                    speed={2 + Math.random() * 2} // Faster falling speed
+                    speed={p.speed}
                     rotationIntensity={2.5}
                     floatIntensity={2}
-                    position={[
-                        (Math.random() - 0.5) * 30, // Spread wider in X
-                        Math.random() * -100 + 15,   // Spread along Y scroll
-                        (Math.random() - 0.5) * 15 - 5 // Spread in Z (depth)
-                    ]}
+                    position={p.position}
                 >
-                    <mesh scale={[1, 1.2, 0.1]} rotation={[Math.random() * Math.PI, Math.random() * Math.PI, 0]}>
-                        {/* Squashed sphere for petal look */}
-                        <sphereGeometry args={[Math.random() * 0.15 + 0.1, 16, 16]} />
+                    <mesh scale={[1, 1.2, 0.1]} rotation={p.rotation}>
+                        <sphereGeometry args={[p.size, 16, 16]} />
                         <meshStandardMaterial
-                            color={Math.random() > 0.5 ? '#ffb6c1' : '#ffc0cb'} // Pinkish petal colors
+                            color={p.color}
                             transparent
                             opacity={0.85}
                             roughness={0.3}
@@ -206,9 +224,20 @@ const FallingPetals = () => {
             ))}
         </>
     );
-};
+});
 
 export function Experience() {
+    const [loadedIndex, setLoadedIndex] = useState(0);
+
+    const handleModelLoaded = useCallback((index: number) => {
+        setLoadedIndex((prev) => {
+            if (index >= prev) {
+                return index + 1;
+            }
+            return prev;
+        });
+    }, []);
+
     return (
         <Canvas
             camera={{ position: [0, 0, 5], fov: 45 }}
@@ -230,14 +259,15 @@ export function Experience() {
             <Sparkles count={150} scale={12} size={3} speed={0.4} opacity={0.4} color="#f4dada" />
             <Sparkles count={50} scale={12} size={5} speed={0.2} opacity={0.2} color="#b25d5d" />
 
-            <Suspense fallback={null}>
-                <ScrollControls pages={16} damping={0.25}>
-                    <Scroll>
-                        {modelsData.map((data, index) => {
-                            if ('urls' in data) {
-                                return data.urls.map((u: any, i: number) => (
+            <ScrollControls pages={17} damping={0.25}>
+                <Scroll>
+                    {modelsData.map((data, index) => {
+                        if (index > loadedIndex) return null;
+
+                        if ('urls' in data) {
+                            return data.urls.map((u: any, i: number) => (
+                                <Suspense key={`group-${index}-${i}`} fallback={null}>
                                     <Model
-                                        key={`group-${index}-${i}`}
                                         index={index}
                                         url={u.url}
                                         position={u.position as [number, number, number]}
@@ -246,12 +276,14 @@ export function Experience() {
                                         mobileZ={u.mobileZ}
                                         scrollPageStart={index - 0.5}
                                         scrollPageEnd={index + 1}
+                                        onLoad={() => handleModelLoaded(index)}
                                     />
-                                ));
-                            }
-                            return (
+                                </Suspense>
+                            ));
+                        }
+                        return (
+                            <Suspense key={index} fallback={null}>
                                 <Model
-                                    key={index}
                                     index={index}
                                     url={data.url}
                                     position={data.position as [number, number, number]}
@@ -259,65 +291,57 @@ export function Experience() {
                                     rotation={data.rotation as [number, number, number]}
                                     scrollPageStart={index === 0 ? 0 : index - 0.5}
                                     scrollPageEnd={index + 1}
+                                    onLoad={() => handleModelLoaded(index)}
                                 />
+                            </Suspense>
+                        );
+                    })}
+                </Scroll>
+
+                <Scroll html style={{ width: "100%", height: "100%" }}>
+                    <div className={styles.htmlContainer}>
+                        {modelsData.map((data, index) => {
+                            let sectionClass = styles.section;
+                            let cardClass = "";
+
+                            if (index === 0) {
+                                sectionClass = styles.section;
+                                cardClass = "";
+                            } else if (index === modelsData.length - 1) {
+                                sectionClass = styles.sectionCenter;
+                                cardClass = styles.cardMain;
+                            } else {
+                                sectionClass = index % 2 === 1 ? styles.sectionLeft : styles.sectionRight;
+                                cardClass = styles.card;
+                            }
+
+                            return (
+                                <section key={index} className={sectionClass}>
+                                    <div className={cardClass || undefined}>
+                                        {index === 0 || index === modelsData.length - 1 ? (
+                                            <>
+                                                <h1 className={styles.heading}>{data.heading}</h1>
+                                                <p className={styles.subtext}>{data.text}</p>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <h2 className={styles.cardHeading}>{data.heading}</h2>
+                                                <p className={styles.cardText}>{data.text}</p>
+                                                {'link' in data && data.link && (
+                                                    <a href={data.link} target="_blank" rel="noopener noreferrer" className={styles.linkButton}>
+                                                        {data.linkText}
+                                                    </a>
+                                                )}
+                                            </>
+                                        )}
+                                    </div>
+                                </section>
                             );
                         })}
-                    </Scroll>
-
-                    <Scroll html style={{ width: "100%", height: "100%" }}>
-                        <div className={styles.htmlContainer}>
-                            {modelsData.map((data, index) => {
-                                let sectionClass = styles.section;
-                                let cardClass = "";
-
-                                if (index === 0) {
-                                    sectionClass = styles.section;
-                                    cardClass = "";
-                                } else if (index === modelsData.length - 1) {
-                                    sectionClass = styles.sectionCenter;
-                                    cardClass = styles.cardMain;
-                                } else {
-                                    sectionClass = index % 2 === 1 ? styles.sectionLeft : styles.sectionRight;
-                                    cardClass = styles.card;
-                                }
-
-                                return (
-                                    <section key={index} className={sectionClass}>
-                                        <div className={cardClass || undefined}>
-                                            {index === 0 || index === modelsData.length - 1 ? (
-                                                <>
-                                                    <h1 className={styles.heading}>{data.heading}</h1>
-                                                    <p className={styles.subtext}>{data.text}</p>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <h2 className={styles.cardHeading}>{data.heading}</h2>
-                                                    <p className={styles.cardText}>{data.text}</p>
-                                                    {'link' in data && data.link && (
-                                                        <a href={data.link} target="_blank" rel="noopener noreferrer" className={styles.linkButton}>
-                                                            {data.linkText}
-                                                        </a>
-                                                    )}
-                                                </>
-                                            )}
-                                        </div>
-                                    </section>
-                                );
-                            })}
-                        </div>
-                    </Scroll>
-                </ScrollControls>
-                <Preload all />
-            </Suspense>
+                    </div>
+                </Scroll>
+            </ScrollControls>
         </Canvas>
     );
 }
-
-modelsData.forEach((data) => {
-    if ('urls' in data) {
-        data.urls.forEach((u: any) => useGLTF.preload(u.url));
-    } else {
-        useGLTF.preload(data.url);
-    }
-});
 
