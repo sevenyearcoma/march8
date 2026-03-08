@@ -147,25 +147,34 @@ const modelsData = [
     },
 ] as any[];
 
-const BackgroundBubbles = () => {
+const BackgroundBubbles = React.memo(() => {
+    const bubbles = React.useMemo(() => 
+        Array.from({ length: 80 }).map(() => ({
+            speed: 1 + Math.random(),
+            position: [
+                (Math.random() - 0.5) * 30,
+                Math.random() * -100 + 10,
+                (Math.random() - 0.5) * 15 - 5
+            ] as [number, number, number],
+            color: Math.random() > 0.5 ? '#f4dada' : '#d49a9a',
+            size: Math.random() * 0.4 + 0.1
+        })), []
+    );
+
     return (
         <>
-            {Array.from({ length: 80 }).map((_, i) => (
+            {bubbles.map((b, i) => (
                 <Float
                     key={i}
-                    speed={1 + Math.random()}
+                    speed={b.speed}
                     rotationIntensity={1}
                     floatIntensity={2}
-                    position={[
-                        (Math.random() - 0.5) * 30, // Spread wider in X
-                        Math.random() * -100 + 10,   // Spread along Y scroll from Top to Bottom
-                        (Math.random() - 0.5) * 15 - 5 // Spread in Z (depth)
-                    ]}
+                    position={b.position}
                 >
                     <mesh>
-                        <sphereGeometry args={[Math.random() * 0.4 + 0.1, 16, 16]} />
+                        <sphereGeometry args={[b.size, 16, 16]} />
                         <meshStandardMaterial
-                            color={Math.random() > 0.5 ? '#f4dada' : '#d49a9a'}
+                            color={b.color}
                             transparent
                             opacity={0.6}
                             roughness={0.2}
@@ -175,28 +184,37 @@ const BackgroundBubbles = () => {
             ))}
         </>
     );
-};
+});
 
-const FallingPetals = () => {
+const FallingPetals = React.memo(() => {
+    const petals = React.useMemo(() => 
+        Array.from({ length: 120 }).map(() => ({
+            speed: 2 + Math.random() * 2,
+            position: [
+                (Math.random() - 0.5) * 30,
+                Math.random() * -100 + 15,
+                (Math.random() - 0.5) * 15 - 5
+            ] as [number, number, number],
+            color: Math.random() > 0.5 ? '#ffb6c1' : '#ffc0cb',
+            size: Math.random() * 0.15 + 0.1,
+            rotation: [Math.random() * Math.PI, Math.random() * Math.PI, 0] as [number, number, number]
+        })), []
+    );
+
     return (
         <>
-            {Array.from({ length: 120 }).map((_, i) => (
+            {petals.map((p, i) => (
                 <Float
                     key={`petal-${i}`}
-                    speed={2 + Math.random() * 2} // Faster falling speed
+                    speed={p.speed}
                     rotationIntensity={2.5}
                     floatIntensity={2}
-                    position={[
-                        (Math.random() - 0.5) * 30, // Spread wider in X
-                        Math.random() * -100 + 15,   // Spread along Y scroll
-                        (Math.random() - 0.5) * 15 - 5 // Spread in Z (depth)
-                    ]}
+                    position={p.position}
                 >
-                    <mesh scale={[1, 1.2, 0.1]} rotation={[Math.random() * Math.PI, Math.random() * Math.PI, 0]}>
-                        {/* Squashed sphere for petal look */}
-                        <sphereGeometry args={[Math.random() * 0.15 + 0.1, 16, 16]} />
+                    <mesh scale={[1, 1.2, 0.1]} rotation={p.rotation}>
+                        <sphereGeometry args={[p.size, 16, 16]} />
                         <meshStandardMaterial
-                            color={Math.random() > 0.5 ? '#ffb6c1' : '#ffc0cb'} // Pinkish petal colors
+                            color={p.color}
                             transparent
                             opacity={0.85}
                             roughness={0.3}
@@ -206,7 +224,7 @@ const FallingPetals = () => {
             ))}
         </>
     );
-};
+});
 
 export function Experience() {
     return (
@@ -314,10 +332,11 @@ export function Experience() {
 }
 
 modelsData.forEach((data) => {
+    const decoder = "https://www.gstatic.com/draco/versioned/decoders/1.5.5/";
     if ('urls' in data) {
-        data.urls.forEach((u: any) => useGLTF.preload(u.url));
+        data.urls.forEach((u: any) => useGLTF.preload(u.url, decoder));
     } else {
-        useGLTF.preload(data.url);
+        useGLTF.preload(data.url, decoder);
     }
 });
 

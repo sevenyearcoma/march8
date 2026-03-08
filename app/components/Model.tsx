@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useGLTF, useScroll } from "@react-three/drei";
 import * as THREE from "three";
@@ -28,7 +28,7 @@ export function Model({
     index,
     mobileZ,
 }: ModelProps) {
-    const { scene } = useGLTF(url);
+    const { scene } = useGLTF(url, "https://www.gstatic.com/draco/versioned/decoders/1.5.5/");
     const group = useRef<THREE.Group>(null);
     const scroll = useScroll();
     const { viewport } = useThree();
