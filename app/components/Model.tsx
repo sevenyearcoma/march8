@@ -34,7 +34,6 @@ export function Model({
     const { viewport } = useThree();
 
     // Align models exactly with their pages to ensure they stay centered with their HTML sections.
-    // We ignore the manual Y in position[1] as it causes drift in a ScrollControls setup.
     const actualY = -index * viewport.height;
 
     const isMobile = viewport.aspect < 1;
@@ -42,7 +41,7 @@ export function Model({
     const actualZ = (isMobile && mobileZ !== undefined) ? mobileZ : position[2];
 
     // Make models slightly smaller on mobile to avoid overlap with cards
-    const responsiveScale = isMobile ? scale * 0.8 : scale;
+    const responsiveScale = isMobile ? scale * 0.75 : scale;
 
     useFrame((state) => {
         if (!group.current) return;
@@ -63,7 +62,7 @@ export function Model({
         <group ref={group} rotation={rotation} scale={responsiveScale}>
             <primitive 
                 object={scene} 
-                position={[0, isMobile ? 0.8 : 0, 0]} // Shift visual up on mobile to leave room for text
+                position={[0, isMobile ? 1.2 : 0, 0]} // Shift visual up on mobile to leave room for centered text
             />
         </group>
     );
