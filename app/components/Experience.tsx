@@ -6,6 +6,8 @@ import { ScrollControls, Scroll, Float, Preload, Sparkles, useGLTF } from "@reac
 import { Model } from "./Model";
 import styles from "../page.module.css";
 
+const DRACO_DECODER_PATH = "https://www.gstatic.com/draco/versioned/decoders/1.5.5/";
+
 const modelsData = [
     {
         url: "/models/heart.glb",
@@ -315,9 +317,8 @@ export function Experience() {
 
 modelsData.forEach((data) => {
     if ('urls' in data) {
-        data.urls.forEach((u: any) => useGLTF.preload(u.url));
+        data.urls.forEach((u: any) => useGLTF.preload(u.url, DRACO_DECODER_PATH));
     } else {
-        useGLTF.preload(data.url);
+        useGLTF.preload(data.url, DRACO_DECODER_PATH);
     }
 });
-

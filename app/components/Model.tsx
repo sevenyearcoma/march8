@@ -3,6 +3,8 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { useGLTF, useScroll } from "@react-three/drei";
 import * as THREE from "three";
 
+const DRACO_DECODER_PATH = "https://www.gstatic.com/draco/versioned/decoders/1.5.5/";
+
 interface ModelProps {
     url: string;
     position: [number, number, number];
@@ -28,7 +30,7 @@ export function Model({
     index,
     mobileZ,
 }: ModelProps) {
-    const { scene } = useGLTF(url);
+    const { scene } = useGLTF(url, DRACO_DECODER_PATH);
     const group = useRef<THREE.Group>(null);
     const scroll = useScroll();
     const { viewport } = useThree();
