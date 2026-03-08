@@ -8,7 +8,7 @@
 }
 
 .section {
-    height: 100vh;
+    height: 100dvh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -17,7 +17,7 @@
 }
 
 .sectionLeft {
-    height: 100vh;
+    height: 100dvh;
     display: flex;
     align-items: center;
     padding: 2rem;
@@ -26,7 +26,7 @@
 }
 
 .sectionRight {
-    height: 100vh;
+    height: 100dvh;
     display: flex;
     align-items: center;
     padding: 2rem;
@@ -35,7 +35,7 @@
 }
 
 .sectionCenter {
-    height: 100vh;
+    height: 100dvh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -122,7 +122,7 @@
 
     .card {
         padding: 1.5rem;
-        transform: translateY(20vh);
+        transform: translateY(20dvh);
         /* Push down on mobile to not overlap 3D model too much */
     }
 
