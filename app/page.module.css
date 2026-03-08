@@ -3,8 +3,6 @@
     top: 0;
     left: 0;
     width: 100vw;
-    height: 1550vh;
-    /* 18 pages */
     display: flex;
     flex-direction: column;
 }

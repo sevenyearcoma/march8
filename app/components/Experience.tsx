@@ -148,7 +148,7 @@ const modelsData = [
 ] as any[];
 
 const BackgroundBubbles = React.memo(() => {
-    const bubbles = React.useMemo(() => 
+    const bubbles = React.useMemo(() =>
         Array.from({ length: 80 }).map(() => ({
             speed: 1 + Math.random(),
             position: [
@@ -187,7 +187,7 @@ const BackgroundBubbles = React.memo(() => {
 });
 
 const FallingPetals = React.memo(() => {
-    const petals = React.useMemo(() => 
+    const petals = React.useMemo(() =>
         Array.from({ length: 120 }).map(() => ({
             speed: 2 + Math.random() * 2,
             position: [
@@ -249,7 +249,7 @@ export function Experience() {
             <Sparkles count={50} scale={12} size={5} speed={0.2} opacity={0.2} color="#b25d5d" />
 
             <Suspense fallback={null}>
-                <ScrollControls pages={16} damping={0.25}>
+                <ScrollControls pages={modelsData.length - 1} damping={0.25}>
                     <Scroll>
                         {modelsData.map((data, index) => {
                             if ('urls' in data) {
@@ -283,7 +283,7 @@ export function Experience() {
                     </Scroll>
 
                     <Scroll html style={{ width: "100%", height: "100%" }}>
-                        <div className={styles.htmlContainer}>
+                        <div className={styles.htmlContainer} style={{ height: `${modelsData.length * 90}vh` }}>
                             {modelsData.map((data, index) => {
                                 let sectionClass = styles.section;
                                 let cardClass = "";
