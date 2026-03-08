@@ -113,16 +113,20 @@
 /* Specific to mobile */
 @media (max-width: 768px) {
 
+    .section,
     .sectionLeft,
-    .sectionRight {
+    .sectionRight,
+    .sectionCenter {
         padding-left: 5vw;
         padding-right: 5vw;
         justify-content: center;
+        align-items: flex-end;
+        padding-bottom: 12vh;
     }
 
     .card {
         padding: 1.5rem;
-        transform: translateY(15vh);
+        transform: none;
         /* Push down on mobile to not overlap 3D model too much */
     }
 

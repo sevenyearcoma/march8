@@ -249,7 +249,7 @@ export function Experience() {
             <Sparkles count={50} scale={12} size={5} speed={0.2} opacity={0.2} color="#b25d5d" />
 
             <Suspense fallback={null}>
-                <ScrollControls pages={modelsData.length} damping={0.25}>
+                <ScrollControls pages={modelsData.length - 1} damping={0.25}>
                     <Scroll>
                         {modelsData.map((data, index) => {
                             if ('urls' in data) {

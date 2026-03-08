@@ -33,17 +33,11 @@ export function Model({
     const scroll = useScroll();
     const { viewport } = useThree();
 
-    // Calculate dynamic Y position based on viewport
-    // use 4.65 as average spacing to match the modelsData distribution and avoid drift
-    const customOffsetY = position[1] - (-4.65 * index);
+    // Align models exactly with their pages to ensure they stay centered with their HTML sections.
+    // We ignore the manual Y in position[1] as it causes drift in a ScrollControls setup.
+    const actualY = -index * viewport.height;
 
     const isMobile = viewport.aspect < 1;
-    // Shift model up on mobile to avoid overlap with text, but keep it within viewport
-    const mobileYOffset = viewport.height * 0.2;
-    const actualY = isMobile
-        ? -index * viewport.height + customOffsetY + mobileYOffset
-        : -index * viewport.height + customOffsetY;
-
     // Determine actual Z position, overriding with mobileZ if provided and on a mobile screen
     const actualZ = (isMobile && mobileZ !== undefined) ? mobileZ : position[2];
 
@@ -66,8 +60,11 @@ export function Model({
     });
 
     return (
-        <group ref={group} position={position} rotation={rotation} scale={responsiveScale}>
-            <primitive object={scene} />
+        <group ref={group} rotation={rotation} scale={responsiveScale}>
+            <primitive 
+                object={scene} 
+                position={[0, isMobile ? 0.8 : 0, 0]} // Shift visual up on mobile to leave room for text
+            />
         </group>
     );
 }
