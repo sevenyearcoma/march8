@@ -1,8 +1,8 @@
 "use client";
 
-import React, { Suspense, useState, useCallback } from "react";
+import React, { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
-import { ScrollControls, Scroll, Float, Sparkles, useGLTF } from "@react-three/drei";
+import { ScrollControls, Scroll, Float, Preload, Sparkles, useGLTF } from "@react-three/drei";
 import { Model } from "./Model";
 import styles from "../page.module.css";
 
@@ -227,17 +227,6 @@ const FallingPetals = React.memo(() => {
 });
 
 export function Experience() {
-    const [loadedIndex, setLoadedIndex] = useState(0);
-
-    const handleModelLoaded = useCallback((index: number) => {
-        setLoadedIndex((prev) => {
-            if (index >= prev) {
-                return index + 1;
-            }
-            return prev;
-        });
-    }, []);
-
     return (
         <Canvas
             camera={{ position: [0, 0, 5], fov: 45 }}
@@ -259,15 +248,14 @@ export function Experience() {
             <Sparkles count={150} scale={12} size={3} speed={0.4} opacity={0.4} color="#f4dada" />
             <Sparkles count={50} scale={12} size={5} speed={0.2} opacity={0.2} color="#b25d5d" />
 
-            <ScrollControls pages={17} damping={0.25}>
-                <Scroll>
-                    {modelsData.map((data, index) => {
-                        if (index > loadedIndex) return null;
-
-                        if ('urls' in data) {
-                            return data.urls.map((u: any, i: number) => (
-                                <Suspense key={`group-${index}-${i}`} fallback={null}>
+            <Suspense fallback={null}>
+                <ScrollControls pages={16} damping={0.25}>
+                    <Scroll>
+                        {modelsData.map((data, index) => {
+                            if ('urls' in data) {
+                                return data.urls.map((u: any, i: number) => (
                                     <Model
+                                        key={`group-${index}-${i}`}
                                         index={index}
                                         url={u.url}
                                         position={u.position as [number, number, number]}
@@ -276,14 +264,12 @@ export function Experience() {
                                         mobileZ={u.mobileZ}
                                         scrollPageStart={index - 0.5}
                                         scrollPageEnd={index + 1}
-                                        onLoad={() => handleModelLoaded(index)}
                                     />
-                                </Suspense>
-                            ));
-                        }
-                        return (
-                            <Suspense key={index} fallback={null}>
+                                ));
+                            }
+                            return (
                                 <Model
+                                    key={index}
                                     index={index}
                                     url={data.url}
                                     position={data.position as [number, number, number]}
@@ -291,57 +277,66 @@ export function Experience() {
                                     rotation={data.rotation as [number, number, number]}
                                     scrollPageStart={index === 0 ? 0 : index - 0.5}
                                     scrollPageEnd={index + 1}
-                                    onLoad={() => handleModelLoaded(index)}
                                 />
-                            </Suspense>
-                        );
-                    })}
-                </Scroll>
-
-                <Scroll html style={{ width: "100%", height: "100%" }}>
-                    <div className={styles.htmlContainer}>
-                        {modelsData.map((data, index) => {
-                            let sectionClass = styles.section;
-                            let cardClass = "";
-
-                            if (index === 0) {
-                                sectionClass = styles.section;
-                                cardClass = "";
-                            } else if (index === modelsData.length - 1) {
-                                sectionClass = styles.sectionCenter;
-                                cardClass = styles.cardMain;
-                            } else {
-                                sectionClass = index % 2 === 1 ? styles.sectionLeft : styles.sectionRight;
-                                cardClass = styles.card;
-                            }
-
-                            return (
-                                <section key={index} className={sectionClass}>
-                                    <div className={cardClass || undefined}>
-                                        {index === 0 || index === modelsData.length - 1 ? (
-                                            <>
-                                                <h1 className={styles.heading}>{data.heading}</h1>
-                                                <p className={styles.subtext}>{data.text}</p>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <h2 className={styles.cardHeading}>{data.heading}</h2>
-                                                <p className={styles.cardText}>{data.text}</p>
-                                                {'link' in data && data.link && (
-                                                    <a href={data.link} target="_blank" rel="noopener noreferrer" className={styles.linkButton}>
-                                                        {data.linkText}
-                                                    </a>
-                                                )}
-                                            </>
-                                        )}
-                                    </div>
-                                </section>
                             );
                         })}
-                    </div>
-                </Scroll>
-            </ScrollControls>
+                    </Scroll>
+
+                    <Scroll html style={{ width: "100%", height: "100%" }}>
+                        <div className={styles.htmlContainer}>
+                            {modelsData.map((data, index) => {
+                                let sectionClass = styles.section;
+                                let cardClass = "";
+
+                                if (index === 0) {
+                                    sectionClass = styles.section;
+                                    cardClass = "";
+                                } else if (index === modelsData.length - 1) {
+                                    sectionClass = styles.sectionCenter;
+                                    cardClass = styles.cardMain;
+                                } else {
+                                    sectionClass = index % 2 === 1 ? styles.sectionLeft : styles.sectionRight;
+                                    cardClass = styles.card;
+                                }
+
+                                return (
+                                    <section key={index} className={sectionClass}>
+                                        <div className={cardClass || undefined}>
+                                            {index === 0 || index === modelsData.length - 1 ? (
+                                                <>
+                                                    <h1 className={styles.heading}>{data.heading}</h1>
+                                                    <p className={styles.subtext}>{data.text}</p>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <h2 className={styles.cardHeading}>{data.heading}</h2>
+                                                    <p className={styles.cardText}>{data.text}</p>
+                                                    {'link' in data && data.link && (
+                                                        <a href={data.link} target="_blank" rel="noopener noreferrer" className={styles.linkButton}>
+                                                            {data.linkText}
+                                                        </a>
+                                                    )}
+                                                </>
+                                            )}
+                                        </div>
+                                    </section>
+                                );
+                            })}
+                        </div>
+                    </Scroll>
+                </ScrollControls>
+                <Preload all />
+            </Suspense>
         </Canvas>
     );
 }
+
+modelsData.forEach((data) => {
+    const decoder = "https://www.gstatic.com/draco/versioned/decoders/1.5.5/";
+    if ('urls' in data) {
+        data.urls.forEach((u: any) => useGLTF.preload(u.url, decoder));
+    } else {
+        useGLTF.preload(data.url, decoder);
+    }
+});
 
