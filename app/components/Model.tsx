@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useGLTF, useScroll } from "@react-three/drei";
 import * as THREE from "three";
@@ -14,6 +14,7 @@ interface ModelProps {
     floatAmplitude?: number;
     index: number;
     mobileZ?: number; // Optional Z-position override for mobile screens
+    onLoad?: () => void;
 }
 
 export function Model({
@@ -27,8 +28,16 @@ export function Model({
     floatAmplitude = 0.2,
     index,
     mobileZ,
+    onLoad,
 }: ModelProps) {
-    const { scene } = useGLTF(url);
+    const { scene } = useGLTF(url, "https://www.gstatic.com/draco/versioned/decoders/1.5.5/");
+
+    useEffect(() => {
+        if (onLoad) {
+            onLoad();
+        }
+    }, [onLoad]);
+
     const group = useRef<THREE.Group>(null);
     const scroll = useScroll();
     const { viewport } = useThree();
