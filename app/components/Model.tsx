@@ -34,12 +34,12 @@ export function Model({
     const { viewport } = useThree();
 
     // Calculate dynamic Y position based on viewport
-    // preserve any custom offset the user had relative to the -5 grid
-    const customOffsetY = position[1] - (-5 * index);
+    // use 4.65 as average spacing to match the modelsData distribution and avoid drift
+    const customOffsetY = position[1] - (-4.65 * index);
 
     const isMobile = viewport.aspect < 1;
-    // Shift model up to top 20% of screen on mobile (offset 0.3 * height)
-    const mobileYOffset = viewport.height * 0.3;
+    // Shift model up on mobile to avoid overlap with text, but keep it within viewport
+    const mobileYOffset = viewport.height * 0.2;
     const actualY = isMobile
         ? -index * viewport.height + customOffsetY + mobileYOffset
         : -index * viewport.height + customOffsetY;
@@ -47,8 +47,8 @@ export function Model({
     // Determine actual Z position, overriding with mobileZ if provided and on a mobile screen
     const actualZ = (isMobile && mobileZ !== undefined) ? mobileZ : position[2];
 
-    // Make models significantly smaller on mobile to avoid overlap
-    const responsiveScale = isMobile ? scale * 1 : scale;
+    // Make models slightly smaller on mobile to avoid overlap with cards
+    const responsiveScale = isMobile ? scale * 0.8 : scale;
 
     useFrame((state) => {
         if (!group.current) return;

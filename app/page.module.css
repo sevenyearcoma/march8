@@ -3,8 +3,6 @@
     top: 0;
     left: 0;
     width: 100vw;
-    height: 1550vh;
-    /* 18 pages */
     display: flex;
     flex-direction: column;
 }
@@ -124,7 +122,7 @@
 
     .card {
         padding: 1.5rem;
-        transform: translateY(20vh);
+        transform: translateY(15vh);
         /* Push down on mobile to not overlap 3D model too much */
     }
 
